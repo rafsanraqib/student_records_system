@@ -22,8 +22,9 @@ jobs:
     - name: Test code
       run: docker run rafsan97/student_records_image:my_student_records_c /bin/sh -c "cd /student_records && make"
 
-    - name: Login to Docker Hub
-      run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+    - name: Login to Amazon ECR
+      id: login-ecr
+      run: aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
 
-    - name: Push image to registry
-      run: docker push rafsan97/student_records_image:my_student_records_c
+    - name: Push image to Amazon ECR
+      run: docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/rafsan97/student_records_image:my_student_records_c
