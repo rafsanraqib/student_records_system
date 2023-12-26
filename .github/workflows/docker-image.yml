@@ -15,4 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-student_records_c:$(date +%s)
+      run: docker build . --file Dockerfile --tag my_student_records_c:$(date +%s)
+
+    - name: Test code
+      run: docker run my_student_records_c /bin/sh -c "cd student_records && make"
