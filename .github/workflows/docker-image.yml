@@ -24,5 +24,5 @@ jobs:
       run: docker login -u ${{secrets.DOCKERHUB_USERNAME}} -p ${{secrets.DOCKERHUB_PASSWORD}}
 
     - name: Push image to registry
-      run: docker push rafsan97/student_records_image:student_records_c
+      run: docker push rafsan97/student_records_image:my_student_records_c
      
