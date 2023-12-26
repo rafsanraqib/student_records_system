@@ -2,27 +2,28 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "development" ]
+    branches:
+      - development
   pull_request:
-    branches: [ "development" ]
+    branches:
+      - development
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my_student_records_c
+      run: docker build . --file Dockerfile --tag rafsan97/student_records_image:my_student_records_c
 
     - name: Test code
-      run: docker run my_student_records_c /bin/sh -c "cd /student_records && make"
+      run: docker run rafsan97/student_records_image:my_student_records_c /bin/sh -c "cd /student_records && make"
 
     - name: Login to Docker Hub
-      run: docker login -u ${{secrets.DOCKERHUB_USERNAME}} -p ${{secrets.DOCKERHUB_PASSWORD}}
+      run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
 
     - name: Push image to registry
       run: docker push rafsan97/student_records_image:my_student_records_c
-     
